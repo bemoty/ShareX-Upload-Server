@@ -15,10 +15,10 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         run: |
-          docker login https://docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_PASS
+          docker login ghcr.io -u $DOCKER_USER -p $DOCKER_PASS
       - name: docker build
         run: |
-          docker build . -t bemoty/sharex-upload-server:latest
+          docker build . -t ghcr.io/bemoty/sharex-upload-server:latest
       - name: docker push
         run: |
-          docker push bemoty/sharex-upload-server:latest
+          docker push ghcr.io/bemoty/sharex-upload-server:latest
