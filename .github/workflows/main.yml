@@ -18,7 +18,7 @@ jobs:
           docker login https://docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_PASS
       - name: docker build
         run: |
-          docker build . -t docker.pkg.github.com/bemoty/sharex-upload-server:latest
+          docker build . -t docker.pkg.github.com/bemoty/sharex-upload-server/server:latest
       - name: docker push
         run: |
-          docker push docker.pkg.github.com/bemoty/sharex-upload-server:latest
+          docker push docker.pkg.github.com/bemoty/sharex-upload-server/server:latest
