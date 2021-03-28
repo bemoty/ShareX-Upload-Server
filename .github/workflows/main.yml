@@ -13,7 +13,7 @@ jobs:
       - name: docker login
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASS: ${{ secrests.DOCKER_PASS }}
+          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         run: |
           docker login https://docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_PASS
       - name: docker build
