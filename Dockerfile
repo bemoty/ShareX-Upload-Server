@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /usr/src/app
+WORKDIR /home/sharex/
 COPY src .
 COPY package.json .
 
