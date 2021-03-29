@@ -4,14 +4,12 @@ const fs = require('fs-extra');
 
 const app = express();
 const bodyParser = require('body-parser');
-const Eris = require('eris');
 const path = require('path');
 
 const utils = require(`${__dirname}/../util`);
 const routes = require(`${__dirname}/routes`);
 const https = require('https');
 
-const events = require(`${__dirname}/../bot/events`);
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
@@ -22,7 +20,7 @@ const helmet = require('helmet');
 /** Express Webserver Class */
 class ShareXAPI {
     /**
-   * Starting server and bot, handling routing, and middleware
+   * Starting server, handling routing, and middleware
    * @param {object} c - configuration json file
    */
     constructor(c) {
@@ -45,9 +43,6 @@ class ShareXAPI {
         this.c = c;
         this.monitorChannel = null;
         this.checkMonth();
-        this.c.discordToken && this.c.discordToken !== undefined && this.c.discrdToken !== null
-            ? this.runDiscordBot()
-            : this.log.verbose('No Discord Token provided...\nContinuing without Discord connection...');
         this.app = app;
         this.app.set('view engine', 'ejs');
         this.app.set('views', path.join(__dirname, '/views'));
@@ -60,16 +55,16 @@ class ShareXAPI {
 
         /* Don't allow access if not accessed with configured domain */
         this.app.use((req, res, next) => {
-            if(this.c.domain === '*') {
+            if (this.c.domain === '*') {
                 next();
-            } else if(req.headers.host !== this.c.domain.toLowerCase() && !this.c.domain.includes('*')) {
+            } else if (req.headers.host !== this.c.domain.toLowerCase() && !this.c.domain.includes('*')) {
                 res.statusCode = 401;
                 res.write('Error 401: Unauthorized Domain');
                 return res.end();
-            } else if(this.c.domain.includes('*')) {
+            } else if (this.c.domain.includes('*')) {
                 let reqParts = req.headers.host.toLowerCase().split('.');
                 let domainParts = this.c.domain.toLowerCase().split('.')
-                if(reqParts[1] === domainParts[1] && reqParts[2] === domainParts[2]) {
+                if (reqParts[1] === domainParts[1] && reqParts[2] === domainParts[2]) {
                     next();
                 } else {
                     res.statusCode = 401;
@@ -179,17 +174,9 @@ class ShareXAPI {
         }));
 
         // routing
-        this.app.get('/', routes.upload.bind(this));
-        this.app.get('/gallery', routes.gallery.get.bind(this));
-        this.app.get('/short', routes.short.get.bind(this));
-        this.app.get('/upload', routes.upload.bind(this));
-        this.app.get('/ERR_FILE_TOO_BIG', routes.fileTooBig.bind(this));
-        this.app.get('/ERR_ILLEGAL_FILE_TYPE', routes.illegalFileType.bind(this));
+        this.app.get('/', routes.root.bind(this));
         this.app.get('*', routes.err404.bind(this));
         this.app.post('/api/shortener', routes.shortener.bind(this));
-        this.app.post('/short', routes.short.post.bind(this));
-        this.app.post('/gallery', routes.gallery.post.bind(this));
-        this.app.post('/pupload', routes.pupload.bind(this));
         this.app.post('/api/paste', routes.paste.bind(this));
         this.app.post('/api/files', routes.files.bind(this));
 
@@ -197,71 +184,13 @@ class ShareXAPI {
         this.startServer();
     }
 
-    /** Booting up the Discord Bot
-   * @returns {void}
-   */
-    async runDiscordBot() {
-        this.bot = new Eris(this.c.discordToken, {
-            maxShards: 'auto',
-        });
-        this.log.verbose('Connecting to Discord...');
-        this.commands = [];
-        this.loadCommands();
-        this.bot
-            .on('messageCreate', events.messageCreate.bind(this))
-            .on('ready', events.ready.bind(this));
-        this.bot.connect();
-    }
-
-    /** Loads the commands for the discord bot to use in /bot/commands
-   * into an array defined before the calling of this function
-   * @returns {void}
-   */
-    async loadCommands() {
-        fs.readdir(`${__dirname}/../bot/commands`, (err, files) => {
-        /** Commands are pushed to an array */
-            files.forEach(file => {
-                if (file.toString().includes('.js')) {
-                    // eslint-disable-next-line global-require
-                    this.commands.push(require(`${__dirname}/../bot/commands/${file.toString()}`));
-                    this.log.verbose(`Loaded Command: ${file.toString()}`);
-                }
-            });
-        });
-    }
-
     /** Start's the Express server
    * @returns {void}
    */
     async startServer() {
-        if (this.c.secure) {
-        /** if the secure option is set to true in config,
-         *  it will boot in https so long as it detects
-         *  key.pem and cert.pem in the src directory
-         */
-            if (fs.existsSync(`${__dirname}/../key.pem`) && fs.existsSync(`${__dirname}/../cert.pem`)) {
-                const privateKey = fs.readFileSync(`${__dirname}/../key.pem`);
-                const certificate = fs.readFileSync(`${__dirname}/../cert.pem`);
-                https.createServer({
-                    key: privateKey,
-                    cert: certificate,
-                }, this.app).listen(this.c.securePort, '0.0.0.0');
-            } else {
-            // CF Flexible SSL
-            /** if no key & cert pem files are detected,
-             * it will still run in secure mode (returning urls with https)
-             * so that it's compatible with CF flexible SSL
-             * and SSL configurations via a reverse proxy */
-                this.app.listen(this.c.securePort, '0.0.0.0', () => {
-                    this.log.warning('Server using flexible SSL secure setting\nTo run a full SSL setting, ensure key.pem and cert.pem are in the /src folder');
-                });
-            }
-            this.log.success(`Secure server listening on port ${this.c.securePort}`);
-        } else {
-            this.app.listen(this.c.port, '0.0.0.0', () => {
-                this.log.success(`Server listening on port ${this.c.port}`);
-            });
-        }
+        this.app.listen(this.c.port, '0.0.0.0', () => {
+            this.log.success(`Server listening on port ${this.c.port}`);
+        });
     }
 
     /** Checks to see if any DB entry is available for this month and year

@@ -6,10 +6,8 @@
   "maxUploadSize": 50,
   "markdown": true,
   "port": 8080,
-  "secure": false,
   "fileNameLength": 4,
   "shortUrlLength": 3,
-  "securePort": 8080,
   "ratelimit": 1000,
   "dateURLPath": false,
   "allowed":[
@@ -24,9 +22,5 @@
   },
   "paste": {
     "maxUploadSize": 20
-  },
-  "discordToken": "Discord Token Here (required if you want API monitoring through Discord)",
-  "discordAdminIDs": ["discord IDs of people who can run commands go here", "Like this"],
-  "discordChannelID": "the channel you're trying to send api monitor updates to",
-  "prefix": "enter prefix for bot commands here"
+  }
 }
