@@ -2,14 +2,14 @@
 const formidable = require('formidable');
 const fs = require('fs-extra');
 const { Remarkable } = require('remarkable');
+const { linkify } = require('remarkable/linkify');
 const ejs = require('ejs');
 const exif = require('exif2');
 
 const md = new Remarkable('full', {
     html: false,
-    linkify: true,
     typographer: true,
-});
+}).use(linkify);
 async function files(req, res) {
     res.setHeader('Content-Type', 'text/text');
     const fileName = this.randomToken(this.c.fileNameLength, false);
