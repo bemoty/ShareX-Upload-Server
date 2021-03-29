@@ -6,10 +6,10 @@ let c;
 let server;
 console.log(`\x1b[31m
   ======================================================================
-  |\x1b[0m\x1b[34m Welcome to                                                                    |
-  |\x1b[0m\x1b[34m Bemoty's ShareX Server                                                                    |
+  |\x1b[0m\x1b[34m Welcome to\033[01;37m                                                             |
+  |\x1b[0m\x1b[34m Bemoty's ShareX Server\033[01;37m                                                 |
   ======================================================================
-  |\x1b[0m\x1b[32m  Creator: github.com/bemoty\x1b[0m\x1b[31m                                |
+  |\x1b[0m\x1b[32m Creator: github.com/bemoty\x1b[0m\x1b[31m                                         |
   ======================================================================\x1b[0m`);
 
 /** Determines whether or not to use the test config or not.
