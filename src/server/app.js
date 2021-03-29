@@ -29,8 +29,6 @@ class ShareXAPI {
         db.defaults({
             files: [],
             bans: [],
-            visitors: [],
-            trafficTotal: [],
             passwordUploads: [],
         })
             .write();
@@ -42,7 +40,6 @@ class ShareXAPI {
         this.mimeType = utils.mimeType;
         this.c = c;
         this.monitorChannel = null;
-        this.checkMonth();
         this.app = app;
         this.app.set('view engine', 'ejs');
         this.app.set('views', path.join(__dirname, '/views'));
@@ -115,52 +112,7 @@ class ShareXAPI {
                 let exists = this.db.get('files').find({ path: file }).value();
                 // making sure ignored files aren't included
                 if (ignored.includes(file)) exists = true;
-                if (exists === undefined) {
-                    next(); // Move on if it doesn't exist, then input data into db
-                    this.db.get('files')
-                        .push({ path: file, ip: 'Unknown', views: 0 })
-                        // Set IP to unknown in case a file is visited, and not uploaded using /api/files
-                        .write();
-                    if (!ignored.includes(file)) {
-                        this.db.get('visitors')
-                            .push({ date: new Date(), ip: userIP, path: file })
-                            .write(); // Sets correct information for files uploaded with /api/files
-                    }
-                } else {
-                    next(); // Move on if the file already exists
-                    const trafficPeriod = this.trafficPeriod(); // Gets month and year for tracking
-                    let viewCount;
-                    let trafficCount;
-                    const filesExist = this.db.get('files').find({ path: file }).value(); // traffic exists for this file
-                    const trafficExists = this.db.get('trafficTotal').find({ month: trafficPeriod }).value(); // traffic exists for this month and year
-                    const visitors = this.db.get('visitors').value();
-                    // Resetting visitors in the DB every 100 requests so the DB doesn't get bloated
-                    if (visitors.length > 100) {
-                        this.db.set('visitors', [])
-                            .write();
-                    }
-                    filesExist === undefined
-                        ? viewCount = 0
-                        : viewCount = filesExist.views + 1;
-                    trafficExists === undefined
-                        ? trafficCount = 0
-                        : trafficCount = trafficExists.total + 1;
-                    this.db.get('files')
-                        .find({ path: file })
-                        .assign({ views: viewCount })
-                        .write(); // Setting viewcount for file
-                    if (!ignored.includes(file)) {
-                        this.db.get('visitors')
-                            .push({ date: new Date(), ip: userIP, path: file })
-                            .write(); // Adding vsitor information to DB
-                    }
-                    if (!ignored.includes(file)) {
-                        this.db.get('trafficTotal')
-                            .find({ month: trafficPeriod })
-                            .assign({ total: trafficCount })
-                            .write(); // if request isn't to an ignored file, take request into total traffic
-                    }
-                }
+                next();
             } else {
                 next();
             }
@@ -191,35 +143,6 @@ class ShareXAPI {
         this.app.listen(this.c.port, '0.0.0.0', () => {
             this.log.success(`Server listening on port ${this.c.port}`);
         });
-    }
-
-    /** Checks to see if any DB entry is available for this month and year
-   * Then inserts a new object into the array if no data is available for
-   * that month/year
-   * @returns {void}
-   */
-    async checkMonth() {
-        const trafficPeriod = this.trafficPeriod();
-        const dbMonth = this.db.get('trafficTotal').find({ month: trafficPeriod }).value();
-        if (dbMonth === undefined) {
-            this.db.get('trafficTotal')
-                .push({ month: trafficPeriod, total: 0 })
-                .write();
-        }
-    }
-
-    /** Gets the current month, and the current year
-   * then combines the two into a string
-   * this string is inserted into the database to be used
-   * for collecting traffic data on a per month basis
-   * @returns {string} 4/2019
-   */
-    // eslint-disable-next-line class-methods-use-this
-    trafficPeriod() {
-        const date = new Date();
-        const currentMonth = date.getMonth() + 1;
-        const currentYear = date.getFullYear();
-        return `${currentMonth}/${currentYear}`;
     }
 
     /** Checks to see if server administrator wants to return http or https
