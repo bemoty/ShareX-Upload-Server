@@ -1,4 +1,4 @@
 src/node_modules
-src/config.real.json
 src/package-lock.json
 node_modules
+db.json

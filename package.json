@@ -2,22 +2,26 @@
   "name": "sharexapi",
   "version": "4.5.3",
   "description": "ShareX API made in Nodejs. Includes images, videos, code, text, and url shortening",
+  "scripts": {
+    "debug": "nodemon --ignore db.json src/index.js -test"
+  },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "ejs": "^3.1.2",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
     "eris": "^0.14.0",
     "exif2": "^0.0.1",
-    "express": "^4.16.4",
-    "formidable": "^1.2.1",
-    "fs-extra": "^9.0.0",
-    "helmet": "^4.0.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "fs-extra": "^9.1.0",
+    "helmet": "^4.4.1",
     "lowdb": "^1.0.0",
     "path": "^0.12.7",
-    "remarkable": "^2.0.0"
+    "remarkable": "^2.0.1"
   },
   "devDependencies": {
-    "eslint": "^7.2.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.17.1"
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7"
   }
 }

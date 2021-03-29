@@ -6,8 +6,8 @@ let c;
 let server;
 console.log(`\x1b[31m
   ======================================================================
-  |\x1b[0m\x1b[34m Welcome to\033[01;37m                                                             |
-  |\x1b[0m\x1b[34m Bemoty's ShareX Server\033[01;37m                                                 |
+  |\x1b[0m\x1b[34m Welcome to\x1b[31m                                                         |
+  |\x1b[0m\x1b[34m Bemoty's ShareX Server\x1b[31m                                             |
   ======================================================================
   |\x1b[0m\x1b[32m Creator: github.com/bemoty\x1b[0m\x1b[31m                                         |
   ======================================================================\x1b[0m`);
@@ -18,7 +18,7 @@ console.log(`\x1b[31m
  */
 async function loadConfig() {
     process.argv[2] === '-test'
-        ? c = require(`${__dirname}/config.real.json`)
+        ? c = require(`${__dirname}/config.debug.json`)
         : c = require(`${__dirname}/config.json`);
 }
 
