@@ -145,16 +145,8 @@ class ShareXAPI {
         });
     }
 
-    /** Checks to see if server administrator wants to return http or https
-   * Using this function instead of req.secure because of
-   * Certain possible SSL configurations (CF Flexible SSL)
-   * @returns {string} http OR https
-   */
     protocol() {
-        if (this.c.secure) {
-            return 'https';
-        }
-        return 'http';
+        return 'https';
     }
 }
 
