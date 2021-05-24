@@ -13,7 +13,7 @@
     "formidable": "^1.2.2",
     "fs-extra": "^9.1.0",
     "helmet": "^4.6.0",
-    "lowdb": "^1.0.0",
+    "lowdb": "^2.1.0",
     "path": "^0.12.7",
     "remarkable": "^2.0.1"
   },
