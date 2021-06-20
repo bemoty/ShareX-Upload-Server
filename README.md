@@ -34,7 +34,6 @@ services:
     volumes:
       - ./volumes/uploads:/home/sharex/server/uploads
       - ./volumes/config.js:/home/sharex/config.js
-      - ./volumes/db.json:/home/sharex/db.json
     ports:
       - '8001:80'
     environment:
