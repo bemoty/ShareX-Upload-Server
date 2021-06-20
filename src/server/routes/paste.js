@@ -1,7 +1,10 @@
 /* eslint-disable consistent-return */
+import ejs from 'ejs';
 import formidable from 'formidable';
 import fs from 'fs-extra';
-import ejs from 'ejs';
+import { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default async function paste(req, res) {
     res.setHeader('Content-Type', 'text/text');

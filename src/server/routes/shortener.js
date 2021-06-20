@@ -1,6 +1,9 @@
 /* eslint-disable no-useless-escape */
 import formidable from 'formidable';
 import fs from 'fs-extra';
+import { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default async function shortener(req, res) {
     const form = new formidable.IncomingForm();

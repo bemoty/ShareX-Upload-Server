@@ -1,10 +1,12 @@
-import formidable from 'formidable';
-import fs from 'fs-extra';
-import { Remarkable } from 'remarkable';
-import { linkify } from 'remarkable/dist/cjs/linkify.js';
 import ejs from 'ejs';
 import exif from 'exif2';
+import formidable from 'formidable';
+import fs from 'fs-extra';
+import { dirname } from 'path';
+import { Remarkable } from 'remarkable';
+import { linkify } from 'remarkable/dist/cjs/linkify.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const md = new Remarkable('full', {
     html: false,
     typographer: true,
