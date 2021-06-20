@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import { dirname } from 'path';
 import { Remarkable } from 'remarkable';
 import { linkify } from 'remarkable/dist/cjs/linkify.js';
+import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const md = new Remarkable('full', {

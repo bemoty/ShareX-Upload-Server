@@ -3,6 +3,7 @@ import ejs from 'ejs';
 import formidable from 'formidable';
 import fs from 'fs-extra';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
