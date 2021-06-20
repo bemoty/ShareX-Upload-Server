@@ -1,24 +1,17 @@
-/* eslint-disable consistent-return */
-const express = require('express');
-const fs = require('fs-extra');
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import utils from '../util/index.js';
+import routes from './routes/index.js';
+import { Low, JSONFileSync } from 'lowdb';
+import helmet from 'helmet';
 
 const app = express();
-const bodyParser = require('body-parser');
-const path = require('path');
-
-const utils = require(`${__dirname}/../util`);
-const routes = require(`${__dirname}/routes`);
-const https = require('https');
-
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-
-const adapter = new FileSync('db.json');
-const db = low(adapter);
-const helmet = require('helmet');
+const adapter = new JSONFileSync('db.json');
+const db = new Low(adapter);
 
 /** Express Webserver Class */
-class ShareXAPI {
+export default class ShareXAPI {
     /**
    * Starting server, handling routing, and middleware
    * @param {object} c - configuration json file
@@ -149,5 +142,3 @@ class ShareXAPI {
         return 'https';
     }
 }
-
-module.exports = ShareXAPI;

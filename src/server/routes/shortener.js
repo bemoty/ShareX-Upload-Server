@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-escape */
-const formidable = require('formidable');
-const fs = require('fs-extra');
+import formidable from 'formidable';
+import fs from 'fs-extra';
 
-async function shortener(req, res) {
+export default async function shortener(req, res) {
     const form = new formidable.IncomingForm();
     // eslint-disable-next-line no-unused-vars
     form.parse(req, (_err, fields, _files) => {
@@ -38,4 +38,3 @@ async function shortener(req, res) {
         });
     });
 }
-module.exports = shortener;

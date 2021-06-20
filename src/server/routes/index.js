@@ -1,7 +1,15 @@
-require('fs')
-    .readdirSync(__dirname)
-    .map(filename => {
-        const moduleName = filename.split('.')[0];
-        // eslint-disable-next-line global-require
-        exports[moduleName] = require(`${__dirname}/${filename}`);
-    });
+import err404 from './err404.js';
+import files from './files.js';
+import paste from './paste.js';
+import root from './root.js';
+import shortener from './shortener.js';
+
+const routes = {
+    err404,
+    files,
+    paste,
+    root,
+    shortener
+}
+
+export default routes;

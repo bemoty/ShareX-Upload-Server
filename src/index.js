@@ -1,7 +1,5 @@
-/* eslint-disable global-require */
-/* eslint-disable no-console */
-const ShareXAPI = require(`${__dirname}/server/app`);
-/** Setting definitions for the config file and server class */
+import ShareXAPI from './server/app.js';
+
 let c;
 let server;
 console.log(`\x1b[31m

@@ -41,15 +41,24 @@ function timestamp() {
 function uncaughtError(log) {
     console.log(`${fg.red}  |> ${endColor}${bg.red}[${timestamp()}]${endColor}${fg.red} | ${log}${endColor}`);
 }
+
 function success(log) {
     console.log(`${fg.red}  |> ${endColor}${bg.green}[${timestamp()}]${endColor}${fg.green} | ${log}${endColor}`);
 }
+
 function warning(log) {
     console.log(`${fg.red}  |> ${endColor}${bg.magenta}[${timestamp()}]${endColor}${fg.magenta} | ${log}${endColor}`);
 }
+
 function verbose(log) {
     console.log(`${fg.red}  |> ${endColor}${bg.blue}[${timestamp()}]${endColor}${fg.blue} | ${log}${endColor}`);
 }
-module.exports = {
-    uncaughtError, success, warning, verbose,
-};
+
+const log = {
+    uncaughtError,
+    success,
+    warning,
+    verbose
+}
+
+export default log;

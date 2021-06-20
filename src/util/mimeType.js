@@ -4,7 +4,7 @@
  * @param {string} fileName - file name including extension (example.pdf)
  * @returns {string} MIME Type
  */
-function mimeType(fileName) {
+export default function mimeType(fileName) {
     const mimeTypes = {
         '.3dm': 'x-world/x-3dmf',
         '.3dmf': 'x-world/x-3dmf',
@@ -653,4 +653,3 @@ function mimeType(fileName) {
     if (mime == null) { mime = 'application/octet-stream'; }
     return mime;
 }
-module.exports = mimeType;

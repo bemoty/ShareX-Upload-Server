@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
-const formidable = require('formidable');
-const fs = require('fs-extra');
-const ejs = require('ejs');
+import formidable from 'formidable';
+import fs from 'fs-extra';
+import ejs from 'ejs';
 
-async function paste(req, res) {
+export default async function paste(req, res) {
     res.setHeader('Content-Type', 'text/text');
     const fileName = this.randomToken(5); // 916,132,832 possible file names
     const form = new formidable.IncomingForm();
@@ -56,4 +56,3 @@ async function paste(req, res) {
         if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW PASTE][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[IP](${userIP})\n\`\`\`\n${protocol}://${req.headers.host}/${fileName}`);
     });
 }
-module.exports = paste;
