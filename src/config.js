@@ -1,11 +1,11 @@
-{
+export default {
   "key": [""],
-  "domain": "*",
+  "domain": "example.com",
   "puploadKeyGenLength": 64,
   "public": false,
   "maxUploadSize": 50,
   "markdown": true,
-  "port": 8080,
+  "port": 80,
   "fileNameLength": 4,
   "shortUrlLength": 3,
   "ratelimit": 1000,

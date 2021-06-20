@@ -1,4 +1,6 @@
 import ShareXAPI from './server/app.js';
+import config from './config.js';
+import configDebug from './config.debug.js';
 
 let c;
 let server;
@@ -16,8 +18,8 @@ console.log(`\x1b[31m
  */
 async function loadConfig() {
     process.argv[2] === '-test'
-        ? c = require(`${__dirname}/config.debug.json`)
-        : c = require(`${__dirname}/config.json`);
+        ? c = configDebug
+        : c = config;
 }
 
 loadConfig().then(() => {
