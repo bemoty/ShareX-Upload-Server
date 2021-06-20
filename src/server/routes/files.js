@@ -83,15 +83,14 @@ export default async function files(req, res) {
         if (fields.showCase !== false) {
             showCaseFile = this.randomToken(this.c.fileNameLength, false);
         }
-        this.db.get('files')
-            .push({
-                path: fields.showCase ? `/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${showCaseFile}` : `/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName}`,
-                ip: userIP,
-                views: 0,
-                original: newpath,
-                showCase: fields.showCase ? true : false
-            })
-            .write();
+        this.db.data.files.push({
+            path: fields.showCase ? `/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${showCaseFile}` : `/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName}`,
+            ip: userIP,
+            views: 0,
+            original: newpath,
+            showCase: fields.showCase ? true : false
+        });
+        this.db.write();
         let settings;
         let isAdmin = false;
         if (!this.c.admin.key.includes(fields.key)) {
@@ -129,12 +128,11 @@ export default async function files(req, res) {
                 } else {
                     puploadKey = fields.pupload;
                 }
-                this.db.get('passwordUploads')
-                    .push({
-                        fileName: `${fileName}.${fileExt}`,
-                        key: puploadKey,
-                    })
-                    .write();
+                this.db.data.passwordUploads.push({
+                    fileName: `${fileName}.${fileExt}`,
+                    key: puploadKey,
+                });
+                this.db.write();
                 fs.readFile(newpath, 'utf-8', () => {
                     const stream = fs.createWriteStream(`${__dirname}/../uploads/${fileName}.html`);
                     stream.once('open', () => {

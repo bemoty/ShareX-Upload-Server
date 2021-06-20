@@ -35,9 +35,8 @@ export default async function shortener(req, res) {
             if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW][SHORT URL]\n[URL](${url})\n[NEW](${req.headers.host}/${fileName})\n[IP](${userIP})\n\`\`\``);
             this.log.verbose(`New Short URL: ${protocol}://${req.headers.host}/${fileName} | IP: ${userIP}`);
             res.write(`${protocol}://${req.headers.host}/${fileName}`);
-            this.db.get('files')
-                .push({ path: `/${fileName}`, ip: userIP, views: 0 })
-                .write();
+            this.db.data.files.push({ path: `/${fileName}`, ip: userIP, views: 0 });
+            this.db.write();
             return res.end();
         });
     });

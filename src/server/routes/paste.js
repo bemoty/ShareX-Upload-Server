@@ -20,13 +20,12 @@ export default async function paste(req, res) {
             res.end();
             return this.log.warning(`Unauthorized User | File Upload | ${userIP}`);
         }
-        this.db.get('files')
-            .push({
-                path: `/${fileName}`,
-                ip: userIP,
-                views: 0,
-            })
-            .write();
+        this.db.data.files.push({
+            path: `/${fileName}`,
+            ip: userIP,
+            views: 0,
+        });
+        this.db.write();
         const oldpath = files.fdata.path;
         const newpath = `${__dirname}/../uploads/${fileName + files.fdata.name.toString().match(/(\.)+([a-zA-Z0-9]+)+/g, '').toString()}`;
         if (Math.round((files.fdata.size / 1024) / 1000) > this.c.paste.max_upload_size) {
