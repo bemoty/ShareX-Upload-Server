@@ -44,7 +44,7 @@ export default async function files(req, res) {
             return this.log.warning(`Unauthorized User | File Upload | ${userIP} | ${authKey}`);
         }
         const oldpath = files.fdata.path;
-        const fileExt = files.fdata.name.substring(files.fdata.name.lastIndexOf('.') + 1, files.fdata.name.length).toLowerCase();
+        const fileExt = files.fdata.originalFilename.substring(files.fdata.originalFilename.lastIndexOf('.') + 1, files.fdata.originalFilename.length).toLowerCase();
         let newpath;
         if (this.c.dateURLPath === true) {
             let currentMonth = getDate('month')
@@ -92,7 +92,7 @@ export default async function files(req, res) {
             isAdmin = true;
         }
         if (Math.round((files.fdata.size / 1024) / 1000) > settings.maxUploadSize && !isAdmin) {
-            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[FAILED UPLOAD][USER]\n[FILE](${files.fdata.name})\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[KEY](${authKey})\n[IP](${userIP})\n\n[ERROR](ERR_FILE_TOO_BIG)\`\`\``);
+            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[FAILED UPLOAD][USER]\n[FILE](${files.fdata.originalFilename})\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[KEY](${authKey})\n[IP](${userIP})\n\n[ERROR](ERR_FILE_TOO_BIG)\`\`\``);
             res.statusCode = 413;
             if (usingUploader === true) {
                 res.redirect('/?error=File_Too_Big');
@@ -102,7 +102,7 @@ export default async function files(req, res) {
             return res.end();
         }
         if (!settings.allowed.some(ext => fileExt.endsWith(ext)) && !settings.allowed.includes("*")) {
-            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[FAILED UPLOAD][USER]\n[FILE](${files.fdata.name})\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[KEY](${authKey})\n[IP](${userIP})\n\n[ERROR](ERR_ILLEGAL_FILE_TYPE)\`\`\``);
+            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[FAILED UPLOAD][USER]\n[FILE](${files.fdata.originalFilename})\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[KEY](${authKey})\n[IP](${userIP})\n\n[ERROR](ERR_ILLEGAL_FILE_TYPE)\`\`\``);
             res.statusCode = 415;
             if (usingUploader === true) {
                 res.redirect('/?error=Illegal_File_Type');
