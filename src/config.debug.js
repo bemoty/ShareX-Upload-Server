@@ -1,5 +1,5 @@
 export default {
-  "key": [""],
+  "key": ["testkey"],
   "domain": "*",
   "puploadKeyGenLength": 64,
   "public": false,

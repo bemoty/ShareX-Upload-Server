@@ -43,7 +43,7 @@ export default async function files(req, res) {
             res.end();
             return this.log.warning(`Unauthorized User | File Upload | ${userIP} | ${authKey}`);
         }
-        const oldpath = files.fdata.path;
+        const oldpath = files.fdata.filepath;
         const fileExt = files.fdata.originalFilename.substring(files.fdata.originalFilename.lastIndexOf('.') + 1, files.fdata.originalFilename.length).toLowerCase();
         let newpath;
         if (this.c.dateURLPath === true) {
@@ -132,7 +132,7 @@ export default async function files(req, res) {
                     });
                 });
             });
-            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW UPLOAD][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[KEY](${authKey})\n[IP](${userIP})\n\`\`\`\n${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName}`);
+            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW UPLOAD][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.mimetype})\n[KEY](${authKey})\n[IP](${userIP})\n\`\`\`\n${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName}`);
             if (err) return res.write(err);
             this.log.verbose(`New File Upload: ${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName} | IP: ${userIP} | KEY: ${authKey}`);
             if (usingUploader === true) {
@@ -191,7 +191,7 @@ export default async function files(req, res) {
                         });
                     });
                 });
-                if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW UPLOAD][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[KEY](${authKey})\n[IP](${userIP})\n\`\`\`\n${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${showCaseFile}`);
+                if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW UPLOAD][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.mimetype})\n[KEY](${authKey})\n[IP](${userIP})\n\`\`\`\n${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${showCaseFile}`);
                 if (err) return res.write(err);
                 this.log.verbose(`New File Upload: ${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${showCaseFile} | IP: ${userIP} | KEY ${authKey}`);
                 if (usingUploader === true) {
@@ -220,7 +220,7 @@ export default async function files(req, res) {
                     });
                 });
             }
-            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW UPLOAD][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.type})\n[IP](${userIP})\n[KEY](${authKey})\n\`\`\`\n${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName}`);
+            if (this.monitorChannel !== null) this.bot.createMessage(this.monitorChannel, `\`\`\`MARKDOWN\n[NEW UPLOAD][USER]\n[SIZE](${Math.round(files.fdata.size / 1024)}KB)\n[TYPE](${files.fdata.mimetype})\n[IP](${userIP})\n[KEY](${authKey})\n\`\`\`\n${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName}`);
             if (err) return res.write(err);
             this.log.verbose(`New File Upload: ${protocol}://${req.headers.host}/${this.c.dateURLPath === true ? `${getDate('year')}/${getDate('month')}/${getDate('day')}/` : ""}${returnedFileName} | IP: ${userIP} | KEY: ${authKey}`);
             if (usingUploader === true) {
