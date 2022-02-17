@@ -3,3 +3,4 @@ src/package-lock.json
 node_modules
 db.json
 !src/db.json
+*.png
