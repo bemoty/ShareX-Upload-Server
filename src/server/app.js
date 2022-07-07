@@ -28,7 +28,9 @@ export default class ShareXAPI {
         this.app = app;
         this.app.set('view engine', 'ejs');
         this.app.set('views', join(__dirname, 'views'));
-        this.app.use(helmet());
+        this.app.use(helmet({
+            crossOriginResourcePolicy: false,
+        }));
         this.app.use(cors());
         this.app.use(bodyParser.text());
         this.app.use(bodyParser.json());
