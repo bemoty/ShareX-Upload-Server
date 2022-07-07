@@ -4,6 +4,7 @@ import { join, dirname } from 'path';
 import utils from '../util/index.js';
 import routes from './routes/index.js';
 import helmet from 'helmet';
+import cors from 'cors';
 import { fileURLToPath } from 'url';
 
 const app = express();
@@ -28,6 +29,7 @@ export default class ShareXAPI {
         this.app.set('view engine', 'ejs');
         this.app.set('views', join(__dirname, 'views'));
         this.app.use(helmet());
+        this.app.use(cors());
         this.app.use(bodyParser.text());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({
